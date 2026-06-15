@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#4a90e2">
+  <title>부모 - 우리아이 위치찾기</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="back" href="./index.html">←</a>
+    <h2>부모</h2>
+    <a class="settings" href="#" id="settingsBtn">⚙️</a>
+  </header>
+  <main class="container">
+    <section id="setupSection" class="card hidden">
+      <h3>최초 설정</h3>
+      <p class="hint">Firebase Realtime Database URL을 입력하세요.<br>(README 참고)</p>
+      <input type="text" id="dbUrlInput" placeholder="https://xxx-default-rtdb.firebaseio.com">
+      <button class="btn btn-primary" id="saveDbUrl">저장</button>
+    </section>
+
+    <section id="mainSection" class="hidden">
+      <div class="card status-card">
+        <div id="statusIcon" class="status-icon">📍</div>
+        <div id="statusText" class="status-text">위치를 요청해보세요</div>
+        <div id="statusSub" class="status-sub"></div>
+      </div>
+
+      <button class="btn btn-primary big-btn" id="requestBtn">위치 요청하기</button>
+      <button class="btn btn-secondary hidden" id="cancelBtn">취소</button>
+
+      <div id="resultCard" class="card hidden">
+        <h3>📍 받은 위치</h3>
+        <div class="coords">
+          <div>위도: <span id="lat">-</span></div>
+          <div>경도: <span id="lng">-</span></div>
+          <div>정확도: 약 <span id="acc">-</span>m</div>
+          <div>받은 시각: <span id="ts">-</span></div>
+        </div>
+        <div class="map-links">
+          <a id="kakaoLink" class="btn btn-map" target="_blank" rel="noopener">카카오맵</a>
+          <a id="naverLink" class="btn btn-map" target="_blank" rel="noopener">네이버지도</a>
+          <a id="googleLink" class="btn btn-map" target="_blank" rel="noopener">구글지도</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="./js/config.js"></script>
+  <script src="./js/api.js"></script>
+  <script src="./js/parent.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

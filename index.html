@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#4a90e2">
+  <title>우리아이 위치찾기</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="우리아이">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="role-page">
+  <main class="container">
+    <h1>우리아이 위치찾기</h1>
+    <p class="subtitle">역할을 선택하세요</p>
+    <div class="role-buttons">
+      <a class="btn btn-primary" href="./parent.html">👨‍👩‍👧 부모</a>
+      <a class="btn btn-secondary" href="./child.html">🧒 아이</a>
+    </div>
+    <p class="hint">설치 후 한 번만 선택하면 됩니다.<br>홈 화면에 추가하면 앱처럼 사용할 수 있어요.</p>
+  </main>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

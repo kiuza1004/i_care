@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#4a90e2">
+  <title>아이 - 우리아이 위치찾기</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="back" href="./index.html">←</a>
+    <h2>아이</h2>
+    <a class="settings" href="#" id="settingsBtn">⚙️</a>
+  </header>
+  <main class="container">
+    <section id="setupSection" class="card hidden">
+      <h3>최초 설정</h3>
+      <p class="hint">Firebase Realtime Database URL을 입력하세요.<br>(부모와 동일한 URL)</p>
+      <input type="text" id="dbUrlInput" placeholder="https://xxx-default-rtdb.firebaseio.com">
+      <button class="btn btn-primary" id="saveDbUrl">저장</button>
+    </section>
+
+    <section id="mainSection" class="hidden">
+      <div id="idleCard" class="card status-card">
+        <div class="status-icon">🟢</div>
+        <div class="status-text">대기 중</div>
+        <div class="status-sub">요청이 오면 여기에 표시돼요</div>
+        <button class="btn btn-secondary small-btn" id="checkBtn">새로고침</button>
+      </div>
+
+      <div id="requestCard" class="card hidden">
+        <div class="status-icon">📱</div>
+        <h3>위치 요청이 왔어요</h3>
+        <p class="hint" id="reqTime"></p>
+        <div class="action-row">
+          <button class="btn btn-deny" id="denyBtn">거절</button>
+          <button class="btn btn-accept" id="acceptBtn">위치 보내기</button>
+        </div>
+      </div>
+
+      <div id="sendingCard" class="card hidden">
+        <div class="status-icon">📡</div>
+        <div class="status-text">위치 확인 중...</div>
+        <div class="status-sub">잠시만 기다려주세요</div>
+      </div>
+
+      <div id="doneCard" class="card hidden">
+        <div class="status-icon">✅</div>
+        <div class="status-text" id="doneText">위치를 보냈어요</div>
+        <button class="btn btn-secondary small-btn" id="doneBtn">확인</button>
+      </div>
+    </section>
+  </main>
+  <script src="./js/config.js"></script>
+  <script src="./js/api.js"></script>
+  <script src="./js/child.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

@@ -33,8 +33,32 @@
         <div id="statusSub" class="status-sub"></div>
       </div>
 
-      <button class="btn btn-primary big-btn" id="requestBtn">위치 요청하기</button>
+      <button class="btn btn-primary big-btn" id="requestBtn">위치 요청하기 (1회)</button>
       <button class="btn btn-secondary hidden" id="cancelBtn">취소</button>
+
+      <div class="card" id="trackCard">
+        <h3>🔄 주기 추적</h3>
+        <div id="trackOffView">
+          <div class="row">
+            <label>간격</label>
+            <select id="trackInterval"></select>
+          </div>
+          <div class="row">
+            <label>지속</label>
+            <select id="trackDuration"></select>
+          </div>
+          <button class="btn btn-primary" id="trackStartBtn">추적 시작</button>
+          <p class="hint">아이 폰에서 앱이 켜져 있을 때만 동작합니다.<br>잠금화면 방지(Wake Lock)가 자동 적용됩니다.</p>
+        </div>
+        <div id="trackOnView" class="hidden">
+          <div class="track-status">
+            <div class="status-icon">📡</div>
+            <div class="status-text" id="trackStatusText">추적 중</div>
+            <div class="status-sub" id="trackStatusSub"></div>
+          </div>
+          <button class="btn btn-deny" id="trackStopBtn">추적 중지</button>
+        </div>
+      </div>
 
       <div id="resultCard" class="card hidden">
         <h3>📍 받은 위치</h3>

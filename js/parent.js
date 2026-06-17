@@ -66,8 +66,9 @@
         return;
       }
       if (Date.now() > waitDeadline) {
-        setStatus('⏳', '응답이 없어요', '아이가 앱을 열도록 알려주세요');
         stopReqPolling();
+        try { await window.api.put('/request', { active: false, timestamp: Date.now() }); } catch (e) {}
+        setStatus('⏳', '응답이 없어 취소했어요', '아이 폰이 켜진 뒤 다시 요청해주세요');
         return;
       }
       reqPollTimer = setTimeout(pollOnce, window.ICARE.POLL_INTERVAL_MS);

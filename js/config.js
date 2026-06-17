@@ -2,13 +2,13 @@
 // Firebase Realtime Database URL은 localStorage에 저장합니다.
 // (설치 시 ⚙️ 또는 최초 화면에서 입력)
 window.ICARE = {
-  VERSION: 'v7',
+  VERSION: 'v8',
   DB_URL_KEY: 'icare_db_url',
   ROLE_KEY: 'icare_role',           // 'parent' | 'child'
   AUTO_ACCEPT_KEY: 'icare_auto_accept', // '1' | '0' (아이 측)
   REQUEST_TTL_MS: 10 * 60 * 1000, // 요청 유효시간 10분
   POLL_INTERVAL_MS: 4000,         // 폴링 간격 (포그라운드에서만)
-  RESPONSE_WAIT_MS: 3 * 60 * 1000,// 부모가 응답 기다리는 최대시간 3분
+  RESPONSE_WAIT_MS: 2 * 60 * 1000,// 부모가 응답 기다리는 최대시간 2분 (이후 자동 취소)
   TRACK_CHECK_MS: 20000,          // 아이 측 /tracking 상태 재확인 간격
   PARENT_REFRESH_MS: 15000,       // 부모 측 /location 갱신 폴링 간격
   TRACK_INTERVAL_OPTIONS: [       // 추적 간격 후보 (초)

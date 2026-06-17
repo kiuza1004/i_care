@@ -110,7 +110,7 @@
       opt.value = o.v; opt.textContent = o.label;
       intSel.appendChild(opt);
     });
-    intSel.value = 600; // 기본 10분
+    intSel.value = 30; // 기본 30초
 
     const durSel = $('trackDuration');
     window.ICARE.TRACK_DURATION_OPTIONS.forEach(o => {

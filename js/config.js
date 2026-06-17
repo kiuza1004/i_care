@@ -2,7 +2,7 @@
 // Firebase Realtime Database URL은 localStorage에 저장합니다.
 // (설치 시 ⚙️ 또는 최초 화면에서 입력)
 window.ICARE = {
-  VERSION: 'v6',
+  VERSION: 'v7',
   DB_URL_KEY: 'icare_db_url',
   ROLE_KEY: 'icare_role',           // 'parent' | 'child'
   AUTO_ACCEPT_KEY: 'icare_auto_accept', // '1' | '0' (아이 측)

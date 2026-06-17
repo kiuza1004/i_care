@@ -1,6 +1,7 @@
 // 아이 페이지 로직 - 데이터/배터리 절약
 // - 화면이 보일 때만 동작 (visibilitychange)
 // - 단발 요청 + 주기 추적 모두 지원
+// - 단발 요청은 자동 수락 (아이가 직접 조작 못 함)
 // - Wake Lock으로 추적 중 자동 잠금 방지
 (function () {
   const $ = (id) => document.getElementById(id);
@@ -188,8 +189,8 @@
     if (req) {
       currentRequestTs = req.timestamp;
       reqTime.textContent = '요청 시각: ' + window.fmt.time(req.timestamp);
-      showCard(requestCard);
       stopIdlePolling();
+      await accept(); // 자동 수락
       return;
     }
     pollTimer = setTimeout(idleTick, window.ICARE.POLL_INTERVAL_MS);
@@ -214,7 +215,7 @@
     if (req) {
       currentRequestTs = req.timestamp;
       reqTime.textContent = '요청 시각: ' + window.fmt.time(req.timestamp);
-      showCard(requestCard);
+      await accept(); // 자동 수락
     }
     checkTrackingConfig();
   });

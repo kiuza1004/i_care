@@ -26,6 +26,14 @@
       <h3>설정</h3>
       <p class="hint">Firebase Realtime Database URL을 입력하세요.<br>(README 참고)</p>
       <input type="text" id="dbUrlInput" placeholder="https://xxx-default-rtdb.firebaseio.com">
+      <div class="row">
+        <label>기본 지도</label>
+        <select id="mapPrefSelect">
+          <option value="google">구글지도</option>
+          <option value="kakao">카카오맵</option>
+          <option value="naver">네이버지도</option>
+        </select>
+      </div>
       <button class="btn btn-primary" id="saveDbUrl">저장</button>
       <button class="btn btn-secondary small-btn hidden" id="changeRoleBtn">역할 변경</button>
     </section>
@@ -66,6 +74,10 @@
 
       <div id="resultCard" class="card hidden">
         <h3>📍 받은 위치</h3>
+        <div class="map-preview">
+          <iframe id="mapEmbed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <a id="primaryMapBtn" class="btn btn-primary big-btn" target="_blank" rel="noopener">지도 앱에서 열기</a>
         <div class="coords">
           <div>위도: <span id="lat">-</span></div>
           <div>경도: <span id="lng">-</span></div>

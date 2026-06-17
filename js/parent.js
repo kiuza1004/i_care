@@ -25,6 +25,20 @@
     statusText.textContent = text;
     statusSub.textContent = sub || '';
   }
+  function mapUrls(lat, lng) {
+    return {
+      kakao: `https://map.kakao.com/link/map/위치,${lat},${lng}`,
+      naver: `https://map.naver.com/p/?c=${lng},${lat},17,0,0,0,dh`,
+      google: `https://www.google.com/maps?q=${lat},${lng}`
+    };
+  }
+
+  function mapLabel(pref) {
+    return pref === 'kakao' ? '카카오맵에서 열기'
+         : pref === 'naver' ? '네이버지도에서 열기'
+         : '구글지도에서 열기';
+  }
+
   function showLocation(loc) {
     if (!loc || !loc.timestamp || loc.timestamp === lastLocTs) return;
     lastLocTs = loc.timestamp;
@@ -34,9 +48,16 @@
     $('acc').textContent = Math.round(loc.accuracy || 0);
     $('ts').textContent = window.fmt.time(loc.timestamp);
     const { lat, lng } = loc;
-    $('kakaoLink').href = `https://map.kakao.com/link/map/위치,${lat},${lng}`;
-    $('naverLink').href = `https://map.naver.com/p/?c=${lng},${lat},17,0,0,0,dh`;
-    $('googleLink').href = `https://www.google.com/maps?q=${lat},${lng}`;
+    const urls = mapUrls(lat, lng);
+    const pref = window.getMapPref();
+    $('kakaoLink').href = urls.kakao;
+    $('naverLink').href = urls.naver;
+    $('googleLink').href = urls.google;
+    // 임베드 미리보기 (Google Maps - API 키 불필요)
+    $('mapEmbed').src = `https://maps.google.com/maps?q=${lat},${lng}&z=17&output=embed`;
+    // 선택된 지도 앱 열기 버튼
+    $('primaryMapBtn').href = urls[pref];
+    $('primaryMapBtn').textContent = '📍 ' + mapLabel(pref);
   }
 
   // ===== 단발 요청 =====
@@ -203,12 +224,14 @@
     e.preventDefault();
     showSetup();
     $('dbUrlInput').value = window.getDbUrl();
+    $('mapPrefSelect').value = window.getMapPref();
     $('changeRoleBtn').classList.remove('hidden');
   });
   $('saveDbUrl').addEventListener('click', () => {
     const v = $('dbUrlInput').value.trim();
     if (!v.startsWith('https://')) { alert('https:// 로 시작하는 Firebase DB URL을 입력하세요'); return; }
     window.setDbUrl(v);
+    window.setMapPref($('mapPrefSelect').value);
     showMain();
     setStatus('📍', '위치를 요청해보세요', '');
     refreshTracking();
@@ -232,6 +255,7 @@
   if (window.getRole() !== 'parent') window.setRole('parent');
   if (!window.getDbUrl()) {
     showSetup();
+    $('mapPrefSelect').value = window.getMapPref();
   } else {
     showMain();
     setStatus('📍', '위치를 요청해보세요', '');

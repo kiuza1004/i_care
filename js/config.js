@@ -2,10 +2,11 @@
 // Firebase Realtime Database URL은 localStorage에 저장합니다.
 // (설치 시 ⚙️ 또는 최초 화면에서 입력)
 window.ICARE = {
-  VERSION: 'v9',
+  VERSION: 'v10',
   DB_URL_KEY: 'icare_db_url',
   ROLE_KEY: 'icare_role',           // 'parent' | 'child'
   AUTO_ACCEPT_KEY: 'icare_auto_accept', // '1' | '0' (아이 측)
+  MAP_PREF_KEY: 'icare_map_pref',       // 'google' | 'kakao' | 'naver'
   REQUEST_TTL_MS: 10 * 60 * 1000, // 요청 유효시간 10분
   POLL_INTERVAL_MS: 4000,         // 폴링 간격 (포그라운드에서만)
   RESPONSE_WAIT_MS: 2 * 60 * 1000,// 부모가 응답 기다리는 최대시간 2분 (이후 자동 취소)
@@ -51,4 +52,13 @@ window.getAutoAccept = function () {
 
 window.setAutoAccept = function (on) {
   localStorage.setItem(window.ICARE.AUTO_ACCEPT_KEY, on ? '1' : '0');
+};
+
+window.getMapPref = function () {
+  const v = localStorage.getItem(window.ICARE.MAP_PREF_KEY);
+  return v === 'kakao' || v === 'naver' || v === 'google' ? v : 'google';
+};
+
+window.setMapPref = function (v) {
+  if (v) localStorage.setItem(window.ICARE.MAP_PREF_KEY, v);
 };

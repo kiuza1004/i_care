@@ -11,6 +11,7 @@
   const resultCard = $('resultCard');
 
   let reqPollTimer = null;
+  let countdownTimer = null;
   let waitDeadline = 0;
   let lastResponseTs = 0;
   let lastLocTs = 0;
@@ -41,8 +42,23 @@
   // ===== 단발 요청 =====
   function stopReqPolling() {
     if (reqPollTimer) { clearTimeout(reqPollTimer); reqPollTimer = null; }
+    stopCountdown();
     requestBtn.classList.remove('hidden');
     cancelBtn.classList.add('hidden');
+  }
+
+  function stopCountdown() {
+    if (countdownTimer) { clearTimeout(countdownTimer); countdownTimer = null; }
+  }
+
+  function tickCountdown() {
+    const remainMs = waitDeadline - Date.now();
+    if (remainMs <= 0) { statusSub.textContent = '취소 처리 중...'; return; }
+    const remainSec = Math.ceil(remainMs / 1000);
+    const m = Math.floor(remainSec / 60);
+    const s = remainSec % 60;
+    statusSub.textContent = `자동 취소까지 ${m > 0 ? m + '분 ' : ''}${s}초`;
+    countdownTimer = setTimeout(tickCountdown, 1000);
   }
 
   async function pollOnce() {
@@ -89,7 +105,8 @@
       await window.api.put('/request', { active: true, timestamp: now });
       waitDeadline = now + window.ICARE.RESPONSE_WAIT_MS;
       lastResponseTs = now;
-      setStatus('⏳', '응답 대기 중...', '아이가 앱을 열어 승낙해야 합니다');
+      setStatus('⏳', '응답 대기 중...', '');
+      tickCountdown();
       pollOnce();
     } catch (e) {
       setStatus('⚠️', '전송 실패', e.message);

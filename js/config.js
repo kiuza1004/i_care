@@ -11,6 +11,9 @@ window.ICARE = {
   TRACK_CHECK_MS: 20000,          // 아이 측 /tracking 상태 재확인 간격
   PARENT_REFRESH_MS: 15000,       // 부모 측 /location 갱신 폴링 간격
   TRACK_INTERVAL_OPTIONS: [       // 추적 간격 후보 (초)
+    { v: 30,   label: '30초' },
+    { v: 60,   label: '1분' },
+    { v: 180,  label: '3분' },
     { v: 300,  label: '5분' },
     { v: 600,  label: '10분' },
     { v: 1800, label: '30분' }

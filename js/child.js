@@ -81,7 +81,7 @@
     } catch (e) { return null; }
   }
 
-  async function accept() {
+  async function accept(auto) {
     showCard(sendingCard);
     try {
       await sendCurrentLocation();
@@ -93,6 +93,12 @@
     } catch (e) {
       $('doneText').textContent = '실패: ' + (e.message || '알 수 없음');
       showCard(doneCard);
+    }
+    // 자동 수락이면 잠깐 결과 보여주고 다시 대기 상태로 복귀
+    if (auto) {
+      setTimeout(() => {
+        if (!trackingActive && !document.hidden) startIdle();
+      }, 2500);
     }
   }
 
@@ -190,7 +196,7 @@
       currentRequestTs = req.timestamp;
       reqTime.textContent = '요청 시각: ' + window.fmt.time(req.timestamp);
       stopIdlePolling();
-      if (window.getAutoAccept()) await accept();
+      if (window.getAutoAccept()) await accept(true);
       else showCard(requestCard);
       return;
     }
@@ -216,7 +222,7 @@
     if (req) {
       currentRequestTs = req.timestamp;
       reqTime.textContent = '요청 시각: ' + window.fmt.time(req.timestamp);
-      if (window.getAutoAccept()) await accept();
+      if (window.getAutoAccept()) await accept(true);
       else showCard(requestCard);
     }
     checkTrackingConfig();

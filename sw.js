@@ -1,5 +1,5 @@
 // 정적 리소스 사전 캐시 - 두 번째 사용부터 데이터 0KB
-const CACHE = 'icare-v5';
+const CACHE = 'icare-v6';
 const ASSETS = [
   './',
   './index.html',

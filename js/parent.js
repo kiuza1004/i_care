@@ -209,6 +209,7 @@
   });
 
   // ===== 초기화 =====
+  $('appVersion').textContent = window.ICARE.VERSION;
   populateOptions();
   if (window.getRole() !== 'parent') window.setRole('parent');
   if (!window.getDbUrl()) {

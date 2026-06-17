@@ -15,7 +15,10 @@
   <script src="./js/config.js"></script>
   <script>
     // 역할이 저장돼 있으면 바로 해당 페이지로 이동
+    // ?pick=1 이 붙으면 강제로 선택 화면 표시 (역할 변경용)
     (function () {
+      var params = new URLSearchParams(location.search);
+      if (params.has('pick')) return;
       var role = window.getRole();
       if (role === 'parent') location.replace('./parent.html');
       else if (role === 'child') location.replace('./child.html');

@@ -276,6 +276,7 @@
   }
 
   // ===== 초기화 =====
+  $('appVersion').textContent = window.ICARE.VERSION;
   if (window.getRole() !== 'child') window.setRole('child');
   if (!window.getDbUrl()) {
     showSetup();

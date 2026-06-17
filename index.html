@@ -12,20 +12,37 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="우리아이">
   <link rel="stylesheet" href="./css/style.css">
+  <script src="./js/config.js"></script>
+  <script>
+    // 역할이 저장돼 있으면 바로 해당 페이지로 이동
+    (function () {
+      var role = window.getRole();
+      if (role === 'parent') location.replace('./parent.html');
+      else if (role === 'child') location.replace('./child.html');
+    })();
+  </script>
 </head>
 <body class="role-page">
   <main class="container">
     <h1>우리아이 위치찾기</h1>
     <p class="subtitle">역할을 선택하세요</p>
     <div class="role-buttons">
-      <a class="btn btn-primary" href="./parent.html">👨‍👩‍👧 부모</a>
-      <a class="btn btn-secondary" href="./child.html">🧒 아이</a>
+      <button class="btn btn-primary" id="roleParent">👨‍👩‍👧 부모</button>
+      <button class="btn btn-secondary" id="roleChild">🧒 아이</button>
     </div>
-    <p class="hint">설치 후 한 번만 선택하면 됩니다.<br>홈 화면에 추가하면 앱처럼 사용할 수 있어요.</p>
+    <p class="hint">한 번 선택하면 다음부터 바로 열려요.<br>설정에서 역할을 바꿀 수 있어요.</p>
   </main>
   <script>
+    document.getElementById('roleParent').addEventListener('click', function () {
+      window.setRole('parent');
+      location.href = './parent.html';
+    });
+    document.getElementById('roleChild').addEventListener('click', function () {
+      window.setRole('child');
+      location.href = './child.html';
+    });
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(() => {});
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
     }
   </script>
 </body>

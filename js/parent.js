@@ -181,7 +181,12 @@
   cancelBtn.addEventListener('click', cancel);
   $('trackStartBtn').addEventListener('click', startTracking);
   $('trackStopBtn').addEventListener('click', stopTracking);
-  $('settingsBtn').addEventListener('click', (e) => { e.preventDefault(); showSetup(); $('dbUrlInput').value = window.getDbUrl(); });
+  $('settingsBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    showSetup();
+    $('dbUrlInput').value = window.getDbUrl();
+    $('changeRoleBtn').classList.remove('hidden');
+  });
   $('saveDbUrl').addEventListener('click', () => {
     const v = $('dbUrlInput').value.trim();
     if (!v.startsWith('https://')) { alert('https:// 로 시작하는 Firebase DB URL을 입력하세요'); return; }
@@ -189,6 +194,10 @@
     showMain();
     setStatus('📍', '위치를 요청해보세요', '');
     refreshTracking();
+  });
+  $('changeRoleBtn').addEventListener('click', () => {
+    window.setRole('');
+    location.href = './index.html';
   });
 
   document.addEventListener('visibilitychange', () => {
@@ -201,6 +210,7 @@
 
   // ===== 초기화 =====
   populateOptions();
+  if (window.getRole() !== 'parent') window.setRole('parent');
   if (!window.getDbUrl()) {
     showSetup();
   } else {

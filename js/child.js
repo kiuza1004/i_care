@@ -190,7 +190,8 @@
       currentRequestTs = req.timestamp;
       reqTime.textContent = '요청 시각: ' + window.fmt.time(req.timestamp);
       stopIdlePolling();
-      await accept(); // 자동 수락
+      if (window.getAutoAccept()) await accept();
+      else showCard(requestCard);
       return;
     }
     pollTimer = setTimeout(idleTick, window.ICARE.POLL_INTERVAL_MS);
@@ -215,19 +216,31 @@
     if (req) {
       currentRequestTs = req.timestamp;
       reqTime.textContent = '요청 시각: ' + window.fmt.time(req.timestamp);
-      await accept(); // 자동 수락
+      if (window.getAutoAccept()) await accept();
+      else showCard(requestCard);
     }
     checkTrackingConfig();
   });
   $('doneBtn').addEventListener('click', startIdle);
   $('trackingStopBtn').addEventListener('click', () => stopTracking(true));
-  $('settingsBtn').addEventListener('click', (e) => { e.preventDefault(); showSetup(); $('dbUrlInput').value = window.getDbUrl(); });
+  $('settingsBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    showSetup();
+    $('dbUrlInput').value = window.getDbUrl();
+    $('autoAcceptSelect').value = window.getAutoAccept() ? '1' : '0';
+    $('changeRoleBtn').classList.remove('hidden');
+  });
   $('saveDbUrl').addEventListener('click', () => {
     const v = $('dbUrlInput').value.trim();
     if (!v.startsWith('https://')) { alert('https:// 로 시작하는 Firebase DB URL을 입력하세요'); return; }
     window.setDbUrl(v);
+    window.setAutoAccept($('autoAcceptSelect').value === '1');
     showMain();
     startIdle();
+  });
+  $('changeRoleBtn').addEventListener('click', () => {
+    window.setRole('');
+    location.href = './index.html';
   });
 
   document.addEventListener('visibilitychange', async () => {
@@ -257,8 +270,10 @@
   }
 
   // ===== 초기화 =====
+  if (window.getRole() !== 'child') window.setRole('child');
   if (!window.getDbUrl()) {
     showSetup();
+    $('autoAcceptSelect').value = window.getAutoAccept() ? '1' : '0';
   } else {
     showMain();
     startIdle();

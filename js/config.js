@@ -3,6 +3,8 @@
 // (설치 시 ⚙️ 또는 최초 화면에서 입력)
 window.ICARE = {
   DB_URL_KEY: 'icare_db_url',
+  ROLE_KEY: 'icare_role',           // 'parent' | 'child'
+  AUTO_ACCEPT_KEY: 'icare_auto_accept', // '1' | '0' (아이 측)
   REQUEST_TTL_MS: 10 * 60 * 1000, // 요청 유효시간 10분
   POLL_INTERVAL_MS: 4000,         // 폴링 간격 (포그라운드에서만)
   RESPONSE_WAIT_MS: 3 * 60 * 1000,// 부모가 응답 기다리는 최대시간 3분
@@ -27,4 +29,22 @@ window.getDbUrl = function () {
 
 window.setDbUrl = function (url) {
   localStorage.setItem(window.ICARE.DB_URL_KEY, (url || '').trim());
+};
+
+window.getRole = function () {
+  return localStorage.getItem(window.ICARE.ROLE_KEY) || '';
+};
+
+window.setRole = function (role) {
+  if (role) localStorage.setItem(window.ICARE.ROLE_KEY, role);
+  else localStorage.removeItem(window.ICARE.ROLE_KEY);
+};
+
+window.getAutoAccept = function () {
+  const v = localStorage.getItem(window.ICARE.AUTO_ACCEPT_KEY);
+  return v === null ? true : v === '1'; // 기본: 자동 수락
+};
+
+window.setAutoAccept = function (on) {
+  localStorage.setItem(window.ICARE.AUTO_ACCEPT_KEY, on ? '1' : '0');
 };
